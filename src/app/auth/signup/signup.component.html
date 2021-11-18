@@ -1,12 +1,15 @@
-<section class="container">
-  <h3>SignUp Form</h3>
+<form
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="15px"
+  #f="ngForm"
+  (submit)="submitForm(f)"
+>
+  <mat-card class="signup-card">
+    <mat-card-header>
+      <mat-card-title>SignUp Form</mat-card-title>
+    </mat-card-header>
 
-  <form
-    fxLayout="column"
-    fxLayoutAlign="center center"
-    #f="ngForm"
-    (submit)="submitForm(f)"
-  >
     <mat-form-field appearance="outline">
       <input
         matInput
@@ -44,11 +47,32 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" [max]="maxDate" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [max]="maxDate"
+        ngModel
+        name="dob"
+        required
+        #dob="ngModel"
+        placeholder="Enter your date of birth."
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="dob.hasError('required')"
+        >Field must not be empty.</mat-error
+      >
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-  </form>
-</section>
+    <mat-checkbox ngModel name="agree" required
+      >Agree terms and conditions.</mat-checkbox
+    >
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="f.invalid"
+    >
+      Submit
+    </button>
+  </mat-card>
+</form>
