@@ -11,10 +11,10 @@
     </mat-card-header>
 
     <mat-form-field appearance="outline">
+      <mat-label>Enter email</mat-label>
       <input
         matInput
         type="email"
-        placeholder="Enter email"
         ngModel
         name="email"
         email
@@ -32,10 +32,10 @@
       appearance="outline"
       hintLabel="Should be atleast 6 charactor long."
     >
+      <mat-label>Enter password</mat-label>
       <input
         matInput
         type="password"
-        placeholder="Enter password"
         ngModel
         name="password"
         required
@@ -45,7 +45,7 @@
       <mat-hint align="end">{{ pwdLen?.value?.length }}/6</mat-hint>
       <mat-error>Has to be atleast 6 charactors.</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>Choose a date</mat-label>
       <input
         matInput
