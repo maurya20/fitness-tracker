@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { TrainingComponent } from './training/training.component';
+import { StopTrainingComponent } from './training/current/stop-training-component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TrainingComponent } from './training/training.component';
     HeaderComponent,
     SidenavListComponent,
     TrainingComponent,
+    StopTrainingComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,5 +42,6 @@ import { TrainingComponent } from './training/training.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [StopTrainingComponent],
 })
 export class AppModule {}
