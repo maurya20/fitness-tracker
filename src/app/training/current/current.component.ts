@@ -29,6 +29,7 @@ export class CurrentComponent implements OnInit {
     this.timmer = setInterval(() => {
       this.progress = this.progress + 1;
       if (this.progress >= 100) {
+        this.exerciseServise.completeExercise();
         clearInterval(this.timmer);
       }
     }, step);
@@ -42,7 +43,7 @@ export class CurrentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.trainingExit.emit();
+        this.exerciseServise.cancelExercise(this.progress);
       } else {
         this.startResumeTimmer();
       }

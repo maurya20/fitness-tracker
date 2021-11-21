@@ -3,6 +3,6 @@ export interface IExercise {
   id: string;
   caloriesBurned: number;
   duration: number;
-  state?: 'completed' | 'canceled' | null;
+  state?: 'completed' | 'cancelled' | null;
   date?: Date;
 }

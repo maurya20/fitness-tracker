@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { IExercise } from '../models/exercise.model';
+////import 'rxjs/add/operator/map';
 
 export class ExerciseService {
   exerciseChanged = new Subject<IExercise>();
@@ -15,6 +16,7 @@ export class ExerciseService {
     { id: 'burpees', name: 'Burpees', duration: 60, caloriesBurned: 8 },
   ];
   private runningExercise: IExercise;
+  private exercises: IExercise[] = [];
   getAvailExercises() {
     return this.availableExercises.slice();
   }
@@ -26,5 +28,26 @@ export class ExerciseService {
   }
   getRunningExercise() {
     return { ...this.runningExercise };
+  }
+  completeExercise() {
+    this.exercises.push({
+      ...this.runningExercise,
+      date: new Date(),
+      state: 'completed',
+    });
+    this.runningExercise = null;
+    this.exerciseChanged.next(null);
+  }
+
+  cancelExercise(progress: number) {
+    this.exercises.push({
+      ...this.runningExercise,
+      duration: this.runningExercise.duration * (progress / 100),
+      caloriesBurned: this.runningExercise.duration * (progress / 100),
+      date: new Date(),
+      state: 'cancelled',
+    });
+    this.runningExercise = null;
+    this.exerciseChanged.next(null);
   }
 }
