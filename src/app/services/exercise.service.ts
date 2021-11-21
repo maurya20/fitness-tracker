@@ -18,10 +18,13 @@ export class ExerciseService {
   getAvailExercises() {
     return this.availableExercises.slice();
   }
-  stratExercise(selectedId: string) {
+  stratExercise(exercise: string) {
     this.runningExercise = this.availableExercises.find(
-      (ex) => ex.id == selectedId
+      (ex) => ex.id === exercise
     );
     this.exerciseChanged.next({ ...this.runningExercise });
+  }
+  getRunningExercise() {
+    return { ...this.runningExercise };
   }
 }
