@@ -1,7 +1,9 @@
+import { Subject } from 'rxjs';
 import { IExercise } from '../models/exercise.model';
 
 export class ExerciseService {
-  availableExercises: IExercise[] = [
+  exerciseChanged = new Subject<IExercise>();
+  private availableExercises: IExercise[] = [
     { id: 'crunches', name: 'Crunches', duration: 30, caloriesBurned: 8 },
     { id: 'touch-toes', name: 'Touch Toes', duration: 180, caloriesBurned: 15 },
     {
@@ -12,4 +14,14 @@ export class ExerciseService {
     },
     { id: 'burpees', name: 'Burpees', duration: 60, caloriesBurned: 8 },
   ];
+  private runningExercise: IExercise;
+  getAvailExercises() {
+    return this.availableExercises.slice();
+  }
+  stratExercise(selectedId: string) {
+    this.runningExercise = this.availableExercises.find(
+      (ex) => ex.id == selectedId
+    );
+    this.exerciseChanged.next({ ...this.runningExercise });
+  }
 }
