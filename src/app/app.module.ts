@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +21,7 @@ import { StopTrainingComponent } from './training/current/stop-training-componen
 import { AuthService } from './services/auth.service';
 import { ExerciseService } from './services/exercise.service';
 import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 ///firebase
 //import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire';
 //import { getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -48,7 +48,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
   ],
   providers: [AuthService, ExerciseService],
   bootstrap: [AppComponent],
