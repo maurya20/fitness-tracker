@@ -14,8 +14,8 @@ import { UiService } from 'src/app/services/ui.service';
 export class NewComponent implements OnInit {
   selectedValue: string;
   exercises: IExercise[] = [];
-  exerciseSubscription: Subscription;
-  isLoading: boolean = false;
+  private exerciseSubscription: Subscription;
+  isLoading: boolean = true;
   private loadingSubs: Subscription;
   constructor(
     private exerciseService: ExerciseService,
@@ -31,7 +31,6 @@ export class NewComponent implements OnInit {
     this.exerciseSubscription = this.exerciseService.exercisesChanged.subscribe(
       (exercises) => {
         this.exercises = exercises;
-        this.uiService.loadingStateChange.next(false);
       }
     );
     this.exerciseService.fetchAvailableExercises();
