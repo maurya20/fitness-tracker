@@ -22,8 +22,19 @@
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="center">
-        <button type="submit" mat-button [disabled]="f.invalid">Start</button>
+        <button
+          *ngIf="!isLoading"
+          type="submit"
+          mat-button
+          [disabled]="f.invalid"
+        >
+          Start
+        </button>
       </mat-card-actions>
+      <mat-spinner
+        *ngIf="isLoading"
+        style="position: absolute; top: 100px; right: 150px"
+      ></mat-spinner>
     </mat-card>
   </form>
 </section>

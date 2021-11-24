@@ -4,6 +4,7 @@ import { IExercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { UiService } from 'src/app/services/ui.service';
 
 @Component({
   selector: 'app-new',
@@ -14,14 +15,24 @@ export class NewComponent implements OnInit {
   selectedValue: string;
   exercises: IExercise[] = [];
   exerciseSubscription: Subscription;
+  isLoading: boolean = false;
+  private loadingSubs: Subscription;
   constructor(
     private exerciseService: ExerciseService,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private uiService: UiService
   ) {}
 
   ngOnInit(): void {
+    this.loadingSubs = this.uiService.loadingStateChange.subscribe((state) => {
+      this.isLoading = state;
+    });
+    this.uiService.loadingStateChange.next(true);
     this.exerciseSubscription = this.exerciseService.exercisesChanged.subscribe(
-      (exercises) => (this.exercises = exercises)
+      (exercises) => {
+        this.exercises = exercises;
+        this.uiService.loadingStateChange.next(false);
+      }
     );
     this.exerciseService.fetchAvailableExercises();
   }
@@ -31,5 +42,6 @@ export class NewComponent implements OnInit {
 
   ngOnDestroy() {
     this.exerciseSubscription.unsubscribe();
+    this.loadingSubs.unsubscribe();
   }
 }
