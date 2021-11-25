@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
 import { IExercise } from '../models/exercise.model';
 import { map } from 'rxjs/operators';
-import { UiService } from './ui.service';
+import { UiService } from '../shared/ui.service';
 
 @Injectable()
 export class ExerciseService {
@@ -34,11 +34,22 @@ export class ExerciseService {
             });
           })
         )
-        .subscribe((exercises: IExercise[]) => {
-          this.uiService.loadingStateChange.next(false);
-          this.availableExercises = exercises;
-          this.exercisesChanged.next([...this.availableExercises]);
-        })
+        .subscribe(
+          (exercises: IExercise[]) => {
+            this.uiService.loadingStateChange.next(false);
+            this.availableExercises = exercises;
+            this.exercisesChanged.next([...this.availableExercises]);
+          },
+          (error) => {
+            this.uiService.loadingStateChange.next(false);
+            this.uiService.showSnackBar(
+              'Failed to load available Exercises',
+              null,
+              4000
+            );
+            this.exercisesChanged.next(null);
+          }
+        )
     );
   }
 

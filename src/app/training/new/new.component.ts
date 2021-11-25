@@ -4,7 +4,7 @@ import { IExercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
-import { UiService } from 'src/app/services/ui.service';
+import { UiService } from '../../shared/ui.service';
 
 @Component({
   selector: 'app-new',
