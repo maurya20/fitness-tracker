@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UiService } from '../../shared/ui.service';
-import * as fromApp from '../../app.reducer';
+import * as fromRoot from '../../app.reducer';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private uiService: UiService,
-    private store: Store<{ ui: fromApp.State }>
+    private store: Store<{ ui: fromRoot.State }>
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(map((state) => state.ui.isLoading));
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     // this.loadingSubs = this.uiService.loadingStateChange.subscribe((state) => {
     //   this.isLoading = state;
     // });
