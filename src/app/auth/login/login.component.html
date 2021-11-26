@@ -36,7 +36,7 @@
     </mat-form-field>
 
     <button
-      *ngIf="isLoading$ | async"
+      *ngIf="!(isLoading$ | async)"
       mat-raised-button
       color="primary"
       type="submit"
@@ -45,7 +45,7 @@
       Submit
     </button>
     <mat-spinner
-      *ngIf="!(isLoading$ | async)"
+      *ngIf="isLoading$ | async"
       style="position: absolute; top: 130px; right: 130px"
     ></mat-spinner>
   </mat-card>

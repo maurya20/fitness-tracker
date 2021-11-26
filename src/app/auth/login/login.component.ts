@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { UiService } from '../../shared/ui.service';
 import * as fromRoot from '../../app.reducer';
-import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,18 +13,13 @@ import { map } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading$: Observable<boolean>;
-  private loadingSubs: Subscription;
   constructor(
     private authService: AuthService,
-    private uiService: UiService,
     private store: Store<{ ui: fromRoot.State }>
   ) {}
 
   ngOnInit() {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-    // this.loadingSubs = this.uiService.loadingStateChange.subscribe((state) => {
-    //   this.isLoading = state;
-    // });
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
@@ -41,7 +35,4 @@ export class LoginComponent implements OnInit {
     });
     console.log('/////>>>', this.loginForm);
   }
-  // ngOnDestroy(): void {
-  //   this.loadingSubs.unsubscribe();
-  // }
 }
