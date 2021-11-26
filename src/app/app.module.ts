@@ -11,7 +11,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { AuthService } from './auth/auth.service';
 import { ExerciseService } from './services/exercise.service';
 import { environment } from '../environments/environment';
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 ///firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -39,6 +39,12 @@ import { reducers } from './app.reducer';
     TrainingModule,
     AngularFirestoreModule,
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+
+      // autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
   ],
   providers: [AuthService, ExerciseService, UiService],
   bootstrap: [AppComponent],
