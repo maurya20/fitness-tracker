@@ -13,5 +13,6 @@ export class SetUnauthenticated implements Action {
 
 export class SetLoggedUser implements Action {
   readonly type = SET_LOGGED_USER;
+  constructor(public payload: string) {}
 }
 export type AuthActions = SetAuthenticated | SetUnauthenticated | SetLoggedUser;

@@ -22,6 +22,7 @@ export class AuthService {
   initAuthListener() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
+        this.store.dispatch(new Auth.SetLoggedUser(user.email));
         this.store.dispatch(new Auth.SetAuthenticated());
         this.router.navigate(['/training']);
       } else {
@@ -55,7 +56,6 @@ export class AuthService {
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {
         this.store.dispatch(new UI.StopLoading());
-        console.log('resp ofter login>>>>>>>', result?.user?.email);
       })
       .catch((error) => {
         this.store.dispatch(new UI.StopLoading());
