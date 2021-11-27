@@ -35,6 +35,61 @@
         *ngIf="isLoading$ | async"
         style="position: absolute; top: 10px; right: 150px"
       ></mat-spinner>
+      <audio id="player">
+        <source
+          src="https://assets.mixkit.co/music/preview/mixkit-minimal-techno-01-162.mp3"
+          type="audio/mp3"
+        />
+
+        Your browser does not support the audio element.
+      </audio>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          border: 1px solid orange;
+          border-radius: 10px;
+          padding: 10px;
+        "
+      >
+        <span
+          class="material-icons"
+          role="button"
+          style="cursor: pointer"
+          onclick="document.getElementById('player').volume -= 0.1"
+        >
+          volume_down
+        </span>
+        <span
+          *ngIf="!playing"
+          class="material-icons"
+          role="button"
+          style="cursor: pointer"
+          onclick="document.getElementById('player').play();"
+          (click)="togglePlayBtn()"
+        >
+          play_circle
+        </span>
+        <span
+          *ngIf="playing"
+          class="material-icons"
+          role="button"
+          style="cursor: pointer"
+          (click)="togglePlayBtn()"
+          onclick="document.getElementById('player').pause();"
+        >
+          pause
+        </span>
+
+        <span
+          class="material-icons"
+          role="button"
+          style="cursor: pointer"
+          onclick="document.getElementById('player').volume += 0.1"
+        >
+          volume_up
+        </span>
+      </div>
     </mat-card>
   </form>
 </section>

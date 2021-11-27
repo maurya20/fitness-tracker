@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 export class NewComponent implements OnInit {
   selectedValue: string;
   exercises: IExercise[] = [];
+  playing = false;
   private exerciseSubscription: Subscription;
   isLoading$: Observable<boolean>;
   constructor(
@@ -35,6 +36,9 @@ export class NewComponent implements OnInit {
     this.exerciseService.startExercise(form.value.exercise);
   }
 
+  togglePlayBtn() {
+    this.playing = !this.playing;
+  }
   ngOnDestroy() {
     this.exerciseSubscription.unsubscribe();
   }
