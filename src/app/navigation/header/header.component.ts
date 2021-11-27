@@ -12,6 +12,7 @@ import * as fromRoot from '../../app.reducer';
 export class HeaderComponent implements OnInit {
   @Output() sidenavToggle = new EventEmitter<void>();
   isAuth$: Observable<boolean>;
+  user$: string;
   constructor(
     private store: Store<fromRoot.State>,
     private authService: AuthService
@@ -19,6 +20,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.store.select(fromRoot.getLoggedUser).subscribe((user: string) => {
+      this.user$ = user;
+    });
   }
 
   onToggleSidenav() {

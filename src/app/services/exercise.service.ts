@@ -8,21 +8,23 @@ import * as fromTraining from '../training/training.reducer';
 import * as Training from '../training/training.actions';
 import * as UI from '../shared/ui.actions';
 import { UiService } from '../shared/ui.service';
+import * as fromRoot from '../app.reducer';
 @Injectable()
 export class ExerciseService {
   exerciseChanged = new Subject<IExercise>();
   exercisesChanged = new Subject<IExercise[]>();
   startedExercisesChanged = new Subject<IExercise[]>();
-  private availableExercises: IExercise[] = [];
-  private runningExercise: IExercise;
-  // private exercises: IExercise[] = [];
-  private startedExercises: IExercise[] = [];
+  user: string;
   private fbSubs: Subscription[] = [];
   constructor(
     private db: AngularFirestore,
     private uiService: UiService,
     private store: Store<{ ui: fromTraining.State }>
-  ) {}
+  ) {
+    this.store.select(fromRoot.getLoggedUser).subscribe((user: string) => {
+      this.user = user;
+    });
+  }
   fetchAvailableExercises() {
     this.store.dispatch(new UI.StartLoading());
     this.fbSubs.push(
@@ -74,7 +76,7 @@ export class ExerciseService {
       .subscribe((ex) => {
         this.addToDb({
           ...ex,
-
+          user: this.user,
           date: new Date(),
           state: 'completed',
         });
@@ -103,7 +105,6 @@ export class ExerciseService {
         .collection('startedExercises')
         .valueChanges()
         .subscribe((exercises: IExercise[]) => {
-          this.startedExercises = exercises;
           this.store.dispatch(new Training.SetFinishedTrainings(exercises));
         })
     );

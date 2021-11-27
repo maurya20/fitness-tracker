@@ -5,4 +5,5 @@ export interface IExercise {
   duration: number;
   state?: 'completed' | 'cancelled' | null;
   date?: Date;
+  user?: string;
 }
