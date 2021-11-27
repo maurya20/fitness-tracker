@@ -9,7 +9,69 @@
   <p>Keep on gong, You can do it.</p>
   <button mat-raised-button color="warn" (click)="onStop()">Stop</button>
   <!-- <audio id="player" *ngIf="progress != 100 && !0"> -->
+  <audio id="player">
+    <source
+      src="https://assets.mixkit.co/music/preview/mixkit-minimal-techno-01-162.mp3"
+      type="audio/mp3"
+    />
 
+    Your browser does not support the audio element.
+  </audio>
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid orange;
+      border-radius: 10px;
+      padding: 10px;
+    "
+  >
+    <button
+      color="primary"
+      mat-mini-fab
+      class="material-icons"
+      role="button"
+      style="cursor: pointer"
+      onclick="document.getElementById('player').volume -= 0.1"
+    >
+      <mat-icon>volume_down</mat-icon>
+    </button>
+    <button
+      color="primary"
+      mat-mini-fab
+      *ngIf="!playing"
+      class="material-icons"
+      role="button"
+      style="cursor: pointer"
+      onclick="document.getElementById('player').play();"
+      (click)="togglePlayBtn()"
+    >
+      <mat-icon>play_circle</mat-icon>
+    </button>
+    <button
+      color="primary"
+      mat-mini-fab
+      *ngIf="playing"
+      class="material-icons"
+      role="button"
+      style="cursor: pointer"
+      (click)="togglePlayBtn()"
+      onclick="document.getElementById('player').pause();"
+    >
+      <mat-icon>pause</mat-icon>
+    </button>
+
+    <button
+      mat-mini-fab
+      color="primary"
+      class="material-icons"
+      role="button"
+      style="cursor: pointer"
+      onclick="document.getElementById('player').volume += 0.1"
+    >
+      <mat-icon>volume_up</mat-icon>
+    </button>
+  </div>
   <img
     src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/attachments/delivery/asset/7471e64bf36dd74cb4c52b2dec40690b-1605191302/5%20workout%20gif/create-workout-exercise-gif-animation-in-photoshop.gif"
     alt="exerciseing gif"

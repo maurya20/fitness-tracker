@@ -2,7 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import { StopTrainingComponent } from './stop-training-component';
-
+import * as fromTraining from '../training.reducer';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-current',
   templateUrl: './current.component.html',
@@ -10,11 +12,13 @@ import { StopTrainingComponent } from './stop-training-component';
 })
 export class CurrentComponent implements OnInit {
   progress = 0;
+  playing = false;
   timmer: null | ReturnType<typeof setTimeout> = null;
   @Output() trainingExit = new EventEmitter();
   constructor(
     private dialog: MatDialog,
-    private exerciseServise: ExerciseService
+    private exerciseServise: ExerciseService,
+    private store: Store<fromTraining.State>
   ) {}
 
   ngOnInit(): void {
@@ -22,17 +26,19 @@ export class CurrentComponent implements OnInit {
   }
 
   startResumeTimmer() {
-    const step: number =
-      this.exerciseServise.getRunningExercise() &&
-      (this.exerciseServise.getRunningExercise().duration / 100) * 1000;
-
-    this.timmer = setInterval(() => {
-      this.progress = this.progress + 1;
-      if (this.progress >= 100) {
-        this.exerciseServise.completeExercise();
-        clearInterval(this.timmer);
-      }
-    }, step);
+    this.store
+      .select(fromTraining.getActiveTraining)
+      .pipe(take(1))
+      .subscribe((ex) => {
+        const step: number = (ex.duration / 100) * 1000;
+        this.timmer = setInterval(() => {
+          this.progress = this.progress + 1;
+          if (this.progress >= 100) {
+            this.exerciseServise.completeExercise();
+            clearInterval(this.timmer);
+          }
+        }, step);
+      });
   }
   onStop(): void {
     clearInterval(this.timmer);
@@ -48,5 +54,8 @@ export class CurrentComponent implements OnInit {
         this.startResumeTimmer();
       }
     });
+  }
+  togglePlayBtn() {
+    this.playing = !this.playing;
   }
 }

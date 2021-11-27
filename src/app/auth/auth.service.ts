@@ -55,7 +55,7 @@ export class AuthService {
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {
         this.store.dispatch(new UI.StopLoading());
-        //this.uiService.loadingStateChange.next(false);
+        console.log('resp ofter login>>>>>>>', result?.user?.email);
       })
       .catch((error) => {
         this.store.dispatch(new UI.StopLoading());

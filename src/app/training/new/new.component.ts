@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IExercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as fromRoot from '../../app.reducer';
+import * as fromTraining from '../training.reducer';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -13,33 +14,20 @@ import { Store } from '@ngrx/store';
 })
 export class NewComponent implements OnInit {
   selectedValue: string;
-  exercises: IExercise[] = [];
-  playing = false;
-  private exerciseSubscription: Subscription;
+  exercises$: Observable<IExercise[]>;
   isLoading$: Observable<boolean>;
   constructor(
     private exerciseService: ExerciseService,
-    private store: Store<{ ui: fromRoot.State }>
+    private store: Store<{ ui: fromTraining.State }>
   ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
-    this.exerciseSubscription = this.exerciseService.exercisesChanged.subscribe(
-      (exercises) => {
-        this.exercises = exercises;
-      }
-    );
+    this.exercises$ = this.store.select(fromTraining.getAvailableExercises);
     this.exerciseService.fetchAvailableExercises();
   }
   onStartTraining(form: NgForm) {
     this.exerciseService.startExercise(form.value.exercise);
-  }
-
-  togglePlayBtn() {
-    this.playing = !this.playing;
-  }
-  ngOnDestroy() {
-    this.exerciseSubscription.unsubscribe();
   }
 }
