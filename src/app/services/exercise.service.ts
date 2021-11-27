@@ -91,6 +91,7 @@ export class ExerciseService {
       .subscribe((ex) => {
         this.addToDb({
           ...ex,
+          user: this.user,
           duration: (ex.duration * progress) / 100,
           caloriesBurned: (ex.caloriesBurned * progress) / 100,
           date: new Date(),
@@ -102,7 +103,9 @@ export class ExerciseService {
   fetchCompletedOrCancelledTrainings() {
     this.fbSubs.push(
       this.db
-        .collection('startedExercises')
+        .collection('startedExercises', (ref) =>
+          ref.where('user', '==', this.user)
+        )
         .valueChanges()
         .subscribe((exercises: IExercise[]) => {
           this.store.dispatch(new Training.SetFinishedTrainings(exercises));
